@@ -1,16 +1,16 @@
-# Metalnx Portal Client for VSC Users
+# Metalnx Portal Client for KU Leuven Users
 
 *Prerequisites:*  
-*-A vsc-account coupled to an iRODS account*  
+*-A KU Leuven u-account*  
 
 Metalnx is a graphical user interface and serves as a client to iRODS. It help simplify most administration, collection management, and metadata management tasks removing the need to memorize the long list of iCommands. It allows users to manage content and metadata associated with content.
 
-You can reach the Metalnx portal by clicking [here](https://irods.hpc.kuleuven.be/metalnx/). 
+You can reach the Metalnx portal by clicking [here](https://irods-icts.t.icts.kuleuven.be/metalnx)
 
-You will need to authenticate with your institutional account and then the password request will be done automatically.
-Users from some institutions might encounter a second login page, but the credentials should already be filled in.
+You will be redirected to the KU Leuven authentication page where you will have to login with your u-account. 
 
-Metalnx portal is mainly composed of two panes. The left pane keeps the relevant tabs of our deployment instance and the right pane provides us with the selected tabs’ functionalities.
+
+Metalnx portal is mainly composed of two panes. The left pane keeps the relevant tabs of our deployment instance and the right pane provides the selected tabs’ functionalities.
 
 <img align="center" src="img/metalnx_general.png" width="400px">
 
