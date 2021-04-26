@@ -1,45 +1,31 @@
-[200~.. _webdav_access_to_irods:
+# Webdav client for iRODS
 
-A WebDAV Client Access to iRODS
-===============================
+*Prerequisites:*  
+*-A KU Leuven u-account*  
 
-WebDAV stands for Web Distributed Authoring and Versioning, which is an extension to HTTP, the protocol that web-browsers and webservers use to communicate with each other.
-In other words, WebDAV is a method for remotely managing files over the internet. With WebDAV, we can access files stored in the VSC Tier-1 Data component by using the same interface as we do with our local files.
+WebDAV stands for Web Distributed Authoring and Versioning, which is an extension to HTTP, the protocol that web-browsers and webservers use to communicate with each other. In other words, WebDAV is a method for remotely managing files over the internet. With WebDAV, we can access files stored in the KU Leuven iRODS repository by using the same interface as we do with our local files.
 
 The module that we use for our iRODS connection is called Davrods_. Davrods is an Apache WebDAV interface to iRODS and it provides access to iRODS servers using the WebDAV protocol. It is a bridge between the WebDAV protocol and iRODS.
 
-For an access using Graphical User Interface (GUI) clients to iRODS, we can and will use different tools. However in this page we will see how to use mapping a network drive.
+## Web Browser-Directory Index
 
-From a web browser side a simple directory index is used as an interface. It's purpose is only to list and to view. It is not intended to download and upload data.
+A connection through Davrods is available at https://irods-icts.t.icts.kuleuven.be:8443/ address. After you click the link you can log in using your u-account andthe temporary password that is displayed when you connect to the KU Leuven iRODS login page: https://irods-icts.t.icts.kuleuven.be/
 
-Web Browser-Directory Index
----------------------------
 
-A connection through Davrods is available at https://irods.hpc.kuleuven.be address. After you click the link you can log in using your vsc-account and a temporary password, which should be obtained at https://vsc-passwd.icts.kuleuven.be address.
-To get the password you can simply log in the mentioned address using your institution account, authorize the application, and copy the obtained password.
+<img align="center" src="img/WebDav-login.png" width="400px">
 
-Therefore the first step is to acquire password. To do so, simply click the link provided above or copy it and then “paste and search for” on your favorite web browser.
 
-.. image:: webdav/pass_request.png
+Once you enter your user name and the password, you will see the exact same directory structure as you see in your iRODS server.
 
-Once you reach the screen above, and click “Authorize” button. And save the password that you will get on the following screen.
+<img align="center" src="img/WebDav-dir.png" width="400px">
 
-.. image:: webdav/pass_page.png
 
-After that you should go to the log in link https://irods.hpc.kuleuven.be and see the screen below.
+You can now browse the directories, visualize some files (i.e: text files or images) and download files but you will not be able to upload files.
 
-.. image:: webdav/davrods_access.png
 
-Once you enter your user name and the password you saved, you will see the exact same directory structure as you see in your iRODS server.
+## Mapping drive-WebDAV
 
-.. image:: webdav/dir_index.png
-
-You can now walk around directories and read the data object on your browser.
-
-Mapping drive-WebDAV
---------------------
-
-To perform simply more actions – drag and drop (install/download), rename, delete –  you can map your WebDAV share as a network drive.
+It is also possible to mount your iRODS directories as a network drive using the WebDav interface. 
 
 How to access iRODS using WebDAV on a Windows 10 pc:
 
@@ -47,26 +33,28 @@ How to access iRODS using WebDAV on a Windows 10 pc:
 - Select Computer from the top ribbon.
 - Click on Map Network Drive.
 
-.. image:: webdav/map1.png
+<img align="center" src="img/network-drive.png" width="400px">
 
-- Choose the drive name you want to use.
-- Type “https://irods.hpc.kuleuven.be/home/” in folder area. This is the path that you can find in your browser directory_index.
+- Choose the drive name you want to use. For example Z:
+- Type “https://irods-icts.t.icts.kuleuven.be:8443/home” in folder area. 
 
-.. image:: webdav/map2.png
+<img align="center" src="img/WebDav-network-drive-config.png" width="400px">
+
 
 - Click finish button.
 
-.. image:: webdav/map3.png
+<img align="center" src="img/WebDav-network-drive-config.png" width="400px">
 
-- Enter your user name vscXXXXX.
-- Paste the password you obtained and saved earlier.
+- Enter your user u-account
+- Paste the password you obtained in the login page
 - Click “ok”.
 
-.. image:: webdav/map4.png
+<img align="center" src="img/WebDav-network-drive-login.png" width="400px">
 
 - You should be able to see your connection in network locations.
 
-.. image:: webdav/map5.png
+<img align="center" src="img/WebDav-network-drive-mounted.png" width="400px">
 
 Once you’ve connected, the WebDAV directory is mounted in your local pc. After you click on your driver you will see your iRODS collections and data objects. You can now start adding, editing, deleting files in this directory from the comfort of your computer.
+
 
