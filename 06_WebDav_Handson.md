@@ -33,7 +33,7 @@ How to access iRODS using WebDAV on a Windows 10 pc:
 - Select Computer from the top ribbon.
 - Click on Map Network Drive.
 
-<img align="center" src="img/network-drive.png" width="400px">
+<img align="center" src="img/WebDav-network-drive-menu.png" width="400px">
 
 - Choose the drive name you want to use. For example Z:
 - Type “https://irods-icts.t.icts.kuleuven.be:8443/home” in folder area. 
@@ -43,13 +43,12 @@ How to access iRODS using WebDAV on a Windows 10 pc:
 
 - Click finish button.
 
-<img align="center" src="img/WebDav-network-drive-config.png" width="400px">
+<img align="center" src="img/WebDav-network-drive-login.png" width="400px">
 
 - Enter your user u-account
 - Paste the password you obtained in the login page
 - Click “ok”.
 
-<img align="center" src="img/WebDav-network-drive-login.png" width="400px">
 
 - You should be able to see your connection in network locations.
 
