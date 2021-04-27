@@ -1,7 +1,8 @@
 # iRules for VSC Users
 
 *Prerequisites:*       
-*-A vsc-account (or your own iRODS environment)*     
+*-A vsc-account (or your own Linux client iRODS environment)*  
+*-A KU Leuven account to access to the KU Leuven iRODS active data repository
 *-Basic knowledge of SQL is useful*  
 
 
@@ -10,7 +11,7 @@ As you saw in the previous presentation, organizations can automate their data m
 
 There are two types of rules. System level rules handle complex data issues. They are determined by administrators and triggered by Policy Enforcement Points (PEP). 
 
-On the other side, we have user-defined rules. Users can trigger their rules they wrote themselves with the `irule`command. These can be written into a local file in our VSC system. You can think of these the same way as scripts in other languages like python or bash. In this tutorial, we will dive deeper into user-defined rules.
+On the other side, we have user-defined rules. Users can trigger their rules they wrote themselves with the `irule`command. These can be written into a local file in the iRODS client. You can think of these the same way as scripts in other languages like python or bash. In this tutorial, we will dive deeper into user-defined rules.
 
 By the end you will be able to:
 * Execute rules through the `irule` command    
