@@ -1,7 +1,8 @@
 # Introduction to Python iRODS Client (PRC) and VSC-PRC tools
 
 *Prerequisites:*  
-*-A KU Leuven account  
+*-A vsc-account (or your own Linux client iRODS environment)*  
+*-A KU Leuven account to access to the KU Leuven iRODS active data repository
 *-Basic knowledge of command line (Bash)*   
 *-Basic knowledge of Python is useful*    
 
@@ -19,9 +20,25 @@ The following functionalities will be covered:
 - Using the VSC-PRC command line tools
 
 
-## Using the VSC-PRC interactively 
+### Login in to VSC Tier-2 system
+In this course we will use the Tier-2 Genius login node as our user iRODS client. But you can also use any other Linux system that has a iRODS client installed. 
+you can find the avaialable iRODS linux clients in the iRODS website: https://irods.org/download/ 
 
-This training is intended to be executed on the VSC Tier-2 (Genius) system. You have been provided during the training with a temporary vsc-account that you can use to connect to the system. 
+You have been provided during the training with a temporary vsc-account that you can use to connect to the system.
+
+```sh
+ssh login1-tier2.hpc.kuleuven.be
+```
+Use the temporary vsc-account and the password that you received at the start of the training. 
+
+
+### Configuration of the iRODS connection
+
+Connect to the KU Leuven iRODS portal (https://irods-demo.t.icts.kuleuven.be) and follow the instructions of the section iRODS Linux Client
+
+You will be then start an iRODS session that will last 7 days. 
+
+After 7 days the created temporary password will expire and you will need to repeat this procedure to reconnect to iRODS.
 
 ### Environment setup
 
@@ -50,12 +67,6 @@ Note that vsc-python-irodsclient/0.1-python-irodsclient-0.8.4 will load a python
 In order to have full control about which Python version is used it is recommended to prior to load the vsc-prc-python module 
 to load the Python version you want to work with.
 
-In addition before using the Python client it is needed to start an iRODS session by executing the command:
-
-
-```sh
-iinit --ttl 168 'temporary password obtained on the iRODS portal'
-``` 
 
 These command will activate a temporary token for a period of 7 days. After the 7 days have passed you will need to reactivate 
 your access by re-executing the command again.
