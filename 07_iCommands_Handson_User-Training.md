@@ -1,7 +1,8 @@
 # iCommands for VSC Users
 
 *Prerequisites:*  
-*-A vsc-account (or your own iRODS environment)*  
+*-A vsc-account (or your own Linux client iRODS environment)*  
+*-A KU Leuven account to access to the KU Leuven iRODS active data repository
 *-Basic knowledge of command line (Bash) is useful*  
 
 This tutorial introduces iCommands, which give users a command-line interface to iRODS, and shows you how to perform simple data management tasks with them.
@@ -24,24 +25,26 @@ The aim of the training is to explain the following topics by using the command 
 - synchronization of data
 - ACLs to data objects/collections
 
-### Login in to VSC
-In this course we will use the Tier-1 login node as our user interface. But you can also use Tier-2 login. Therefore you are supposed to reach to either Tier-1 or Tier-2 login node.
-In the future we will also be able to use compute nodes.
+### Login in to VSC Tier-2 system
+In this course we will use the Tier-2 Genius login node as our user iRODS client. But you can also use any other Linux system that has a iRODS client installed. 
+you can find the avaialable iRODS linux clients in the iRODS website: https://irods.org/download/ 
 
-### Connecting to iRODS
-To be able to interact with iRODS, as a VSC user you will need to activate the service by executing one of the following commands:
-
-* If you are logged in to the Tier-1 or Tier-2 cluster of KU Leuven:
+You have been provided during the training with a temporary vsc-account that you can use to connect to the system.
 
 ```sh
-irods-setup | bash
+ssh login1-tier2.hpc.kuleuven.be
 ```
+Use the temporary vsc-account and the password that you received at the start of the training. 
 
-* If you want to connect from a HPC cluster of another Flemish university:
 
-```sh
-ssh login.hpc.kuleuven.be irods-setup | bash
-```
+### Configuration of the iRODS connection
+
+Connect to the KU Leuven iRODS portal (https://irods-demo.t.icts.kuleuven.be) and follow the instructions of the section iRODS Linux Client
+
+You will be then start an iRODS session that will last 7 days. 
+
+After 7 days the created temporary password will expire and you will need to repeat this procedure to reconnect to iRODS.
+
 
 ### Informative iCommands
 These commands help us find and understand some useful information. We may not need these commands directly when we work with data, however we use them to discover what we need.
@@ -89,7 +92,7 @@ To identify the current working collection (directory) you can use the `ipwd` co
 
 ```sh
 ipwd
-/kuleuven_tier1_pilot/home/public
+/icts_demo/home/u00XXXXX
 ```
 
 Let’s create a collection in iRODS and name it “test”.
@@ -103,8 +106,8 @@ And we see that we have successfully created our “test” collection.
 
 ```sh
 ils
-/kuleuven_tier1_pilot/home/public:
-  C- /kuleuven_tier1_pilot/home/public/test
+/icts_demo/home/u00XXXXX:
+  C- /icts_demo/home/u0089722/test
 ```
 
 To go to the collection that you want, you would use `icd` with an absolute path or a relative path.
@@ -128,7 +131,7 @@ Let’s move collection “test1” inside the collection “test”.
 imv test1 test/
 ```
 
-To remove one or more data-object or collection from iRODS space, we use `irm`. By default, the data-objects are moved to the trash collection (/kuleuven_tier1_pilot/trash) unless the -f option is used.
+To remove one or more data-object or collection from iRODS space, we use `irm`. If a trash collection exist, the data-objects are by default moved first to the trash collection (/icts_demo/trash) unless the -f option is used.
 The –r option is used for collections. Now we can remove test1 collection.
 
 ```sh
@@ -185,14 +188,14 @@ rm example.txt
 ls
 ```
 
-The file is now only available on the iRODS server not in our VSC home directory.
+The file is now only available on the iRODS server not in our client directory.
 
 ```sh
 ils
 
 /kuleuven_tier1_pilot/home/public:
   example.txt
-  C- /kuleuven_tier1_pilot/home/public/test
+  C- /icts_demo/home/u00XXXXX/test
 ```
 
 **Exercise 2:**
@@ -204,21 +207,19 @@ ils
 As we have seen before, data can be deleted by `irm (-f) example.txt`. But we will not do it now.
 
 #### Connection between logical and physical namespace
-iRODS provides an abstraction from the physical location of the files. ` /kuleuven_tier1_pilot/home/public/example.txt` is the logical path which only iRODS knows.
+iRODS provides an abstraction from the physical location of the files. ` /icts_demo/home/u00XXXXX/example.txt` is the logical path which only iRODS knows.
 But where is the file actually located on the server?
 
 ```sh
 ils -L
 
-/kuleuven_tier1_pilot/home/public:
-  vsc33586          0 default;tier1-p-irods-2020-pilot;tier1-p-irods-2020-pilot-replication;tier1-p-irods-posix;tier1-p-irods-posix-1-4;tier1-p-irods-posix-3-a-4-a;tier1-p-irods-posix-3-a-weight;tier1-p-irods-posix-3-a           24 2020-07-13.09:23 & example.txt
-    sha2:cQWOwjd7n0JM25XzWdaZPh9RQUvpQWa81Slilj/R0YA=    generic    /irods/a/home/public/example.txt
-  vsc33586          1 default;tier1-p-irods-2020-pilot;tier1-p-irods-2020-pilot-replication;tier1-p-irods-posix;tier1-p-irods-posix-1-4;tier1-p-irods-posix-3-a-4-a;tier1-p-irods-posix-4-a-weight;tier1-p-irods-posix-4-a           24 2020-07-13.09:23 & example.txt
-    sha2:cQWOwjd7n0JM25XzWdaZPh9RQUvpQWa81Slilj/R0YA=    generic    /irods/a/home/public/example.txt
+/icts_demo/home/u0089722/test:
+  u00XXXXX          0 default;netapp           29 2021-04-27.19:41 & example.txt
+    sha2:MGYDAyYBfv49YHkGxNBYQ4sZLE2dxR+yLGhvRjCH4pE=    generic    /netapp/home/u0089722/test/example.txt
 ```
 
-Let’s try to understand what this means. The example.txt that we uploaded to iRODS has the logical path `/kuleuven_tier1_pilot/home/public/example.txt`. vsc33586 is the owner of the file and the numbers after user name show the replica of files in the iRODS system.
-“default” represent storage resource name. The size of the file is 24KB. The file is stored with a time stamp and a checksum. `/irods/a/home/public/example.txt` is the physical path of the file.
+Let’s try to understand what this means. The example.txt that we uploaded to iRODS has the logical path `/icts_demo/home/u0089722/test/example.txt`. u00XXXXX is the owner of the file and the numbers after user name show the replica of files in the iRODS system.
+“default:netapp” represents the storage resource name. The size of the file is 29KB. The file is stored with a time stamp and a checksum. `/netapp/home/u0089722/test/example.txt` is the physical path of the file.
 
 #### Data Download
 We can get data-objects or collections from iRODS, and place them either in the specified local area or the current working directory. Let's download data files from iRODS to our current VSC location.
@@ -248,60 +249,55 @@ You can check the current access of your data with:
 
 ```sh
 ils –r –A
-
-/kuleuven_tier1_pilot/home/public:
-        ACL - g:public#kuleuven_tier1_pilot:own
+/icts_demo/home/u00XXXXX/test:
+        ACL - u00XXXXX#icts_demo:own
         Inheritance - Disabled
   example.txt
-        ACL - vsc33586#kuleuven_tier1_pilot:own
-  C- /kuleuven_tier1_pilot/home/public/mymessage
-/kuleuven_tier1_pilot/home/public/mymessage:
-        ACL - vsc33586#kuleuven_tier1_pilot:own
-        Inheritance - Disabled
-  message.txt
-        ACL - vsc33586#kuleuven_tier1_pilot:own
-  C- /kuleuven_tier1_pilot/home/public/test
-/kuleuven_tier1_pilot/home/public/test:
-        ACL - vsc33586#kuleuven_tier1_pilot:own
-        Inheritance - Disabled
+        ACL - u00XXXXX#icts_demo:own
 ```
 
-After 'ACL' it shows which user has what rights, e.g. <vsc33586> owns all files listed. No one else has access rights.
+After 'ACL' it shows which user has what rights, e.g. <u00XXXXX> owns all files listed. No one else has access rights.
 
 Collections have a flag 'Inheritance'. If this flag is set to true, all content of the folder will inherit the accession rights from the folder.
 
-Let us change the accession rights of 'mymessage'. You can choose another user who you want to give access:
+Let's create a new collection called 'shared'
 
 ```sh
-ichmod read vsc30706 mymessage
+imkdir shared
 ```
 
-The user vsc30706 now can list the collection and see the data to which he/she has the respective permission.
+Let us change the accession rights of 'shared'. You can choose another user who you want to give access:
+
+```sh
+ichmod read u00YYYYY shared
+```
+
+The user u00YYYYY now can list the collection and see the data to which he/she has the respective permission.
 
 We can change the inheritance and place some new data in the collection:
 
 ```sh
-ichmod inherit mymessage
-iput -K example-restore.txt mymessage/example1.txt
+ichmod inherit shared
+iput -K example-restore.txt shared/example1.txt
 ```
 
 Only the recently added file will inherit the ACLs from the folder. Old data will keep their ACLs.
 
 ```sh
-ils -A -r mymessage
+ils -A -r shared
 ```
 
 #### Checking data integrity
-For confirming data integrity, the checksum of a data object or a collection can be checked both in our VSC systems (Tier-1 nodes) and iRODS.
+For confirming data integrity, the checksum of a data object or a collection can be checked both in our local client and iRODS.
 
-We can confirm the checksum of one or more data-object or collection from iRODS. Let’s first check the checksum of mymessage collection in iRODS.
+We can confirm the checksum of one or more data-object or collection from iRODS. Let’s first check the checksum of the `shared` collection in iRODS.
 
 ```sh
-ichksum –r mymessage
+ichksum –r shared
 
-C- /kuleuven_tier1_pilot/home/public/mymessage:
-    example1.txt    sha2:cQWOwjd7n0JM25XzWdaZPh9RQUvpQWa81Slilj/R0YA=
-    message.txt    sha2:I+hXKW8cY3IZ1KZUJlFE8yPRltdSstwnONohiUr3UTo=
+C- /icts_demo/home/u0089722/test/shared:
+    example1.txt    sha2:MGYDAyYBfv49YHkGxNBYQ4sZLE2dxR+yLGhvRjCH4pE=
+Total checksum performed = 1, Failed checksum = 0
 ```
 
 As you remember we can check same by `ils -L` command. But this command list all other information.
@@ -311,9 +307,8 @@ We can reproduce the same digits with `sha256sum ${FILENAME} | awk '{print $1}' 
 Now we check the checksum of the message.txt file in our local system.
 
 ```sh
-sha256sum message.txt | awk '{print $1}' | xxd -r -p | base64
-
-I+hXKW8cY3IZ1KZUJlFE8yPRltdSstwnONohiUr3UTo=
+sha256sum example.txt | awk '{print $1}' | xxd -r -p | base64
+MGYDAyYBfv49YHkGxNBYQ4sZLE2dxR+yLGhvRjCH4pE=
 ```
 
 So we can confirm that this data object/file is the same and we don’t detect any error during its transmission or storage.
@@ -351,7 +346,7 @@ How does this command work? The command compares the checksum values and file si
 
 **Exercise 5:**
 
-- Download mymessage collection to your VSC system (`iget -r mymessage`).
+- Download shared collection to your local system (`iget -r shared`).
 - Add test1.txt file inside this directory.
 - Synchronize this change with your iRODS destination.
 - See the update in iRODS collection.
@@ -378,7 +373,7 @@ We can also add/bundle an iRODS collection into a tar file by using `ibun -c` co
 
 **Exercise 6:**
 
-- Create a “test.tar” file composed of folder and files in your VSC. Or get a compressed file with corresponding extensions.
+- Create a “test.tar” file composed of folder and files in your local system. Or get a compressed file with corresponding extensions.
 - Upload this file to iRODS with using tag (-Dtar flag) as a good practice.
 - Extract this tar file in “test” collection that you don’t have before.
 - Bundle an iRODS collection into a tar file.
@@ -409,7 +404,7 @@ We can leave ‘Unit' part is here empty because it is optional.
 -	Annotate a collection:
 
 ```sh
-imeta add -C mymessage 'training' 'irods' 'online'
+imeta add -C shared 'training' 'irods' 'online'
 ```
 
 #### List Metadata
@@ -423,7 +418,7 @@ imeta ls -d example.txt
 and for a collection:
 
 ```sh
-imeta ls -C mymessage
+imeta ls -C shared
 ```
 
 With `imeta ls`, we can retrieve the AVUs when given a file or collection name. In the next part we will see how we can retrieve the file and folder names when given an attribute or value.

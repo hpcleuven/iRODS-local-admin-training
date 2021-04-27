@@ -60,7 +60,7 @@ iinit --ttl 168 'temporary password obtained on the iRODS portal'
 These command will activate a temporary token for a period of 7 days. After the 7 days have passed you will need to reactivate 
 your access by re-executing the command again.
 
-To do the exercises, make pythonscripts by using your favorite editor (vi, nano,...) and execute them with python <filename>. Alternatively, you can open the python interpreter and work interactively.
+To do the exercises, make pythonscripts by using your favourite editor (vi, nano,...) and execute them with python <filename>. Alternatively, you can open the python interpreter and work interactively. (The python interpreter is not installed by default, so you will need to install it usinmg pip): e.g: pip install --user ipython) 
 
 ###  Working with collections and data objects
 
@@ -112,8 +112,9 @@ Printing the iRODS home directory and the current working directory:
 ```py
 from vsc_irods.session import VSCiRODSSession
 with VSCiRODSSession(txt="-") as session:
-session.path.get_irods_home()
-session.path.get_irods_cwd()
+home = session.path.get_irods_home()
+cwd = session.path.get_irods_cwd()
+print(home,cwd)
 ```
 
 Create a collection `training` on your iRODS home directory:
@@ -160,6 +161,7 @@ For example, if user vsctmp10 wants to upload this to his training folder, it mi
 ```py
 session.data_objects.put('/data/leuven/tmp/vsctmp10/iRODS-local-admin-training/molecules/alcl3.xyz','/icts_icts/home/u00XXXXX/training/')
 ```
+where u00XXXXX should be replace by your KU Leuven u-account number. 
 
 This demonstrates that even using the VSCIRODSSession class all the functionalities of the Python iRODS Client (PRC) are still available. 
 
