@@ -1,14 +1,14 @@
 # Introduction to Python iRODS Client (PRC) and VSC-PRC tools
 
 *Prerequisites:*  
-*-A vsc-account and acces to the Tier-1 infrastructure of KU Leuven*  
+*-A KU Leuven account  
 *-Basic knowledge of command line (Bash)*   
 *-Basic knowledge of Python is useful*    
 
-This training introduces you to the basics of using the iRODS client API implemented in Python, as well as the additional functions and tools developed by VSC to extend the iRODS Python API functionalities. The main feature of the VSC extensions is the possibility of using wildcards ("\*") and tildes ("~") for specifying iRODS data objects and collections. 
+This training introduces you to the basics of using the iRODS client API implemented in Python, as well as the additional functions and tools developed by Flemish Supercompuitng Center (VSC) to extend the iRODS Python API functionalities. The main feature of the VSC extensions is the possibility of using wildcards ("\*") and tildes ("~") for specifying iRODS data objects and collections. 
 
 ## Goal of this training
-You will learn how to use the Python iRODS API (PRC) to interact with the Tier-1 Data service iRODS infrastructure.
+You will learn how to use the Python iRODS API (PRC) to interact with the KU Leuven iRODS infrastructure.
 The following functionalities will be covered:
 
 - Uploading and downloading data
@@ -21,11 +21,11 @@ The following functionalities will be covered:
 
 ## Using the VSC-PRC interactively 
 
-This training is intended to be executed on the VSC Tier-1 (BrENIAC) system. We assume you already have a vsc-account and rights to connect to the Tier-1 Compute system and to use the Tier-1 Data service.
+This training is intended to be executed on the VSC Tier-2 (Genius) system. You have been provided during the training with a temporary vsc-account that you can use to connect to the system. 
 
 ### Environment setup
 
-- Connect to BrENIAC with your vsc-account using your favourite client. 
+- Connect to Genius with your temporary vsc-account using your favourite client. 
 - Go to your data folder:
 ```sh
 cd $VSC_DATA
@@ -35,15 +35,14 @@ cd $VSC_DATA
   
 - Copy the course material in your data directory
 
-
 ```sh
-git clone https://github.com/hpcleuven/iRODS-User-Training.git
+git clone https://github.com/hpcleuven/iRODS-local-admin-training.git
 ``` 
-- The  Python iRODS API (PRC) and the VSC extensions are available as a module in the Tier-1 Compute system.
+- The  Python iRODS API (PRC) and the VSC extensions are available as a module in the Tier-2 Genius Compute system.
 Before using it you will need to load the corresponding module:
 
 ```sh
-module load Python/3.7.4-GCCcore-8.3.0
+Python/3.7.2-foss-2018a
 module load vsc-python-irodsclient/0.1-python-irodsclient-0.8.4
 ``` 
 
@@ -53,43 +52,17 @@ to load the Python version you want to work with.
 
 In addition before using the Python client it is needed to start an iRODS session by executing the command:
 
-From Tier-1 login nodes or compute nodes:
 
 ```sh
-ssh irods.hpc.kuleuven.be | bash
-``` 
-
-From Tier-2 login nodes: 
-
-```sh
-ssh irods.tier1.leuven.vsc | bash
+iinit --ttl 168 'temporary password obtained on the iRODS portal'
 ``` 
 
 These command will activate a temporary token for a period of 7 days. After the 7 days have passed you will need to reactivate 
-your access by re-executing one of these commands again.
+your access by re-executing the command again.
+
+To do the exercises, make pythonscripts by using your favorite editor (vi, nano,...) and execute them with python <filename>. Alternatively, you can open the python interpreter and work interactively.
 
 ###  Working with collections and data objects
-
-We will first start using iRODS interactively with ipython.  
-That way, we can execute commands line by line, which is great for experimenting. 
-So we will need to install locally ipython:
-
-```sh
-pip install --user ipython
-``` 
-and the corresponding directory to your path:
-
-
-```sh
-export PATH=$HOME/.local/bin/:$PATH
-``` 
-
-
-Start an ipython session:
-
-```sh
-ipython
-``` 
 
 The first thing we need to do is to import the VSCIRODSSession module and create an iRODS session.
 This class is derived from PRC's irods.iRODSSession class, and as such you can still use it to do what PRC is capable of (see https://github.com/irods/python-irodsclient). Here, we will focus on the functionalities that are added by VSC-PRC.  
@@ -137,6 +110,8 @@ Let's try some of those functions:
 Printing the iRODS home directory and the current working directory:
 
 ```py
+from vsc_irods.session import VSCiRODSSession
+with VSCiRODSSession(txt="-") as session:
 session.path.get_irods_home()
 session.path.get_irods_cwd()
 ```
@@ -144,14 +119,20 @@ session.path.get_irods_cwd()
 Create a collection `training` on your iRODS home directory:
 
 ```py
+from vsc_irods.session import VSCiRODSSession
+with VSCiRODSSession(txt="-") as session:
 session.path.imkdir('training')
 ```
+
+Try the following additions to the previous code: 
+
 We can verify that the collection has been created by requesting the absolute path (the full path from the root):
 
 ```py
-session.path.get_absolute_irods_path('training')
+abs_path = session.path.get_absolute_irods_path('training')
+print(abs_path)
 ```
-Now we can change to the directory we just created:
+Now try to change to the directory we just created:
 
 
 ```py
@@ -161,8 +142,9 @@ session.path.ichdir('training')
 We can now check the current working directory, which is different from the home directory:
 
 ```py
-session.path.get_irods_cwd()
-session.path.get_irods_home()
+cwd = session.path.get_irods_cwd()
+home = session.path.get_irods_home()
+print(cwd,home)
 ```
 
 Let's upload some data into our training iRODS collection!
@@ -173,10 +155,10 @@ You will need to fill in the correct path to the file you want to upload:
 ```py
 session.data_objects.put( [location of the file]  , [target destination of the file])
 ```
-For example, if user vsc33731 wants to upload this to his training folder, it might look like this:
+For example, if user vsctmp10 wants to upload this to his training folder, it might look like this:
 
 ```py
-session.data_objects.put('/data/leuven/337/vsc33731/iRODS-User-Training/molecules/alcl3.xyz','/kuleuven_tier1_pilot/home/vsc33731/training/')
+session.data_objects.put('/data/leuven/tmp/vsctmp10/iRODS-local-admin-training/molecules/alcl3.xyz','/icts_icts/home/u00XXXXX/training/')
 ```
 
 This demonstrates that even using the VSCIRODSSession class all the functionalities of the Python iRODS Client (PRC) are still available. 
@@ -184,7 +166,7 @@ This demonstrates that even using the VSCIRODSSession class all the functionalit
 Let's use the search.find() function to verify that the file has been uploaded to iRODS:
 
 ```py
-irods_path = '/kuleuven_tier1_pilot/home/vsc33731/training/'
+irods_path = '/icts_icts/home/u00XXXXX/training/'
 session.search.find(irods_path,types='f')
 ```
 This command returns a list of iRODS data objects paths (types='f' means list files) which match a given pattern. As we have not defined a pattern then the default value ("\*") is used. So, the result will be a list containing the iRODS paths of all the files in the collection `irods_path`.  
@@ -196,7 +178,7 @@ for item in session.search.find(irods_path, types='f'):
 	print(item)
 ```
 
-While this PRC function works well, it has the disadvantage that only works with single data object or collections.
+While this PRC function works well, it has the disadvantage that only works with single data objects or collections.
 Here the VSC-PRC bulk functionalities provide more flexibility, as they allow to select files using wildcards. 
 
 So, let's now upload to the training iRODS collection all files with extension .xyz:
@@ -315,7 +297,7 @@ Hint: You will need to use the following  PRC functions:
   - Get the collection information: 
 
   ```py
-  coll = session.collections.get('/kuleuven_tier1_pilot/home/vsc33731/training')
+  coll = session.collections.get('/data/leuven/tmp/vsctmp10/iRODS-local-admin-training/training')
   ```
 
   This command will store in the coll variable all the information related to the collection. 
@@ -340,6 +322,6 @@ Hint: You will need to use the following  PRC functions:
   - 'read' is the kind of permission we want to give (other options are 'own', 'write' and 'null')
   - coll.path is the path of the collection we want to modify obtained the previous session.collection.get()
   - 'lt1_es2020' is the name of the group to whom we want to give read access
-  - session.zone is the iRODS zone to which this collection belongs and will be taken from the session information (in our case: kuleuven_tier1_pilot)
+  - session.zone is the iRODS zone to which this collection belongs and will be taken from the session information (in our case: icts_icts)
 
 - Finally create a new local directory named `molecules_copy` and download all the files that were created with the OPenBabel software.
