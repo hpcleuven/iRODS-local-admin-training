@@ -2,7 +2,7 @@
 
 *Prerequisites:*  
 *-A vsc-account (or your own Linux client iRODS environment)*  
-*-A KU Leuven account to access to the KU Leuven iRODS active data repository
+*-A KU Leuven account to access to the KU Leuven iRODS active data repository*  
 *-Basic knowledge of command line (Bash)*   
 *-Basic knowledge of Python is useful*    
 
@@ -20,9 +20,9 @@ The following functionalities will be covered:
 - Using the VSC-PRC command line tools
 
 
-### Login in to VSC Tier-2 system
+### Login into VSC Tier-2 system
 In this course we will use the Tier-2 Genius login node as our user iRODS client. But you can also use any other Linux system that has a iRODS client installed. 
-you can find the avaialable iRODS linux clients in the iRODS website: https://irods.org/download/ 
+You can find the available iRODS linux clients in the iRODS website: https://irods.org/download/ 
 
 You have been provided during the training with a temporary vsc-account that you can use to connect to the system.
 
@@ -59,7 +59,7 @@ git clone https://github.com/hpcleuven/iRODS-local-admin-training.git
 Before using it you will need to load the corresponding module:
 
 ```sh
-Python/3.7.2-foss-2018a
+module load Python/3.7.2-foss-2018a
 module load vsc-python-irodsclient/0.1-python-irodsclient-0.8.4
 ``` 
 

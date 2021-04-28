@@ -2,7 +2,7 @@
 
 *Prerequisites:*  
 *-A vsc-account (or your own Linux client iRODS environment)*  
-*-A KU Leuven account to access to the KU Leuven iRODS active data repository
+*-A KU Leuven account to access to the KU Leuven iRODS active data repository*  
 *-Basic knowledge of command line (Bash) is useful*  
 
 This tutorial introduces iCommands, which give users a command-line interface to iRODS, and shows you how to perform simple data management tasks with them.

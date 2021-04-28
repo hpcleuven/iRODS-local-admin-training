@@ -2,12 +2,12 @@
 
 *Prerequisites:*       
 *-A vsc-account (or your own Linux client iRODS environment)*  
-*-A KU Leuven account to access to the KU Leuven iRODS active data repository
+*-A KU Leuven account to access to the KU Leuven iRODS active data repository*  
 *-Basic knowledge of SQL is useful*  
 
 
 ## What are rules?
-As you saw in the previous presentation, organizations can automate their data management tasks in iRODS. At the community level policies are determined and rules are used to automate these determined policies. iRODS has its own rule language which is a domain specific language to define policies and actions in the system. However, there is the iRODS rule engine plugin interface that allows iRODS administrators and users to write iRODS policy rules in other languages, e.g. Python. Rules are an important part of iRODS: automating data management policies reduces not only the workload but also human errors, making our data management more consistent.
+As you saw in the previous presentation, organizations can automate their data management tasks in iRODS. At the community level policies are determined and rules are used to automate these determined policies. iRODS has its own rule language which is a domain specific language (also called as iRODS native rule language) to define policies and actions in the system. However, there is the iRODS rule engine plugin interface that allows iRODS administrators and users to write iRODS policy rules in other languages, e.g. Python. Rules are an important part of iRODS: automating data management policies reduces not only the workload but also human errors, making our data management more consistent.
 
 There are two types of rules. System level rules handle complex data issues. They are determined by administrators and triggered by Policy Enforcement Points (PEP). 
 
@@ -57,7 +57,7 @@ output ruleExecOut
 
 As you can see, the command `writeLine('stdout', 'your message');` is the common way to print things.
 
-In a file, only the first rule gets triggered by iRule, even . However, you can call these other rules in your first rule, as illustrated by this example:
+In a file, only the first rule gets triggered by iRule. However, you can call these other rules in your first rule, as illustrated by this example:
 
 ```
 firstRule{
@@ -100,7 +100,7 @@ If you don't know how to do certain things, like adding numbers, you can always 
 
 ## Input and variables
 
-Variables in iRODS always start with an **\***.
+User defined variables in the iRODS native rule language always start with an **\***.
 They can either be specified as input or in the body of the rule
 
 ```
