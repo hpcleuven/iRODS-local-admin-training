@@ -39,7 +39,7 @@ Use the temporary vsc-account and the password that you received at the start of
 
 ### Configuration of the iRODS connection
 
-Connect to the KU Leuven iRODS portal (https://irods-demo.t.icts.kuleuven.be) and follow the instructions of the section iRODS Linux Client
+Connect to the KU Leuven iRODS portal (https://demo.irods.t.icts.kuleuven.be) and follow the instructions of the section iRODS Linux Client
 
 You will be then start an iRODS session that will last 7 days. 
 
